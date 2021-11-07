@@ -127,11 +127,18 @@ def evolutionary_for_plots(q,
         population, fitness = succession(population, fitness, offspring, offspring_fitness, elite_size)
         t += 1
 
-    return iteration_best
+    return iteration_best, best_individual, best_fitness
 
 
-def generate_population(dimentions, population_size, domain=100):
+def generate_population(dimentions, population_size, domain=100, clone=False):
     population = []
+
+    if clone:
+        individual = np.array([(random()-0.5)*2*domain for _ in range(dimentions)])
+        population = [individual for _ in range(population_size)]
+        return np.array(population)
+
     for _ in range(population_size):
         population.append(np.array([(random()-0.5)*2*domain for _ in range(dimentions)]))
-    return(np.array(population))
+
+    return np.array(population)

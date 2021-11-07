@@ -4,15 +4,15 @@ import numpy as np
 
 
 def test_generate_population_one_dimention():
-    population = generate_population(1, 100, 20)
+    population = generate_population(1, 20, 100)
     assert population.shape == (20, 1)
 
 
 def test_generate_population_n_dimentions():
-    population = generate_population(2, 100, 31)
+    population = generate_population(2, 31, 100)
     assert population.shape == (31, 2)
 
-    population = generate_population(10, 100, 112)
+    population = generate_population(10, 112, 100)
     assert population.shape == (112, 10)
 
 
@@ -45,13 +45,13 @@ def test_find_best():
 
 
 def test_reproduction():
-    population = generate_population(1, 50, 20)
+    population = generate_population(1, 20, 50)
     q = lambda x: x**2
     fitness = evaluate_fitness(q, population)
-    offspring = reproduction(population, fitness, 20)
+    offspring = reproduction(population, fitness, 20, 2)
     assert offspring.shape == population.shape
 
-    offspring = reproduction(population, fitness, 8)
+    offspring = reproduction(population, fitness, 8, 2)
     assert offspring.shape[0] == 8
     assert offspring.shape[1] == 1
 
@@ -73,10 +73,10 @@ def test_mutation():
 
 
 def test_succession():
-    population = generate_population(2, 100, 6)
+    population = generate_population(2, 6, 100)
     q = lambda x, y: x**2 + y
     fitness = evaluate_fitness(q, population)
-    offspring = reproduction(population, fitness, 6)
+    offspring = reproduction(population, fitness, 6, 2)
     offspring_fitness = evaluate_fitness(q, offspring)
 
     successors, successors_fitness = succession(population, fitness, offspring, offspring_fitness, 1)
