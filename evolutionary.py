@@ -127,7 +127,7 @@ def evolutionary_for_plots(q,
         population, fitness = succession(population, fitness, offspring, offspring_fitness, elite_size)
         t += 1
 
-    return iteration_best
+    return iteration_best, best_individual, best_fitness
 
 
 def generate_population(dimentions, population_size, domain=100, clone=False):
