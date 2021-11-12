@@ -42,14 +42,14 @@ class Plot2D():
         self.plot = None
 
 
-    def plot_points(self, xpoints, ypoints, color, xlabel=None, ylabel=None):
+    def plot_points(self, xpoints, ypoints, color, size=2, xlabel=None, ylabel=None):
         fig = plt.figure()
         ax = fig.add_subplot(111)
         if xlabel:
             ax.set_xlabel(xlabel)
         if ylabel:
             ax.set_ylabel(ylabel)
-        ax.plot(xpoints, ypoints, 'o', color=color)
+        ax.plot(xpoints, ypoints, 'o', color=color, markersize=size)
         self.plot = ax
 
 

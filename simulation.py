@@ -1,4 +1,4 @@
-from evolutionary import evolutionary, evolutionary_for_plots, generate_population, flatten
+from evolutionary import evolutionary, evolutionary_for_plots, generate_population, flatten, evolutionary_plot_all
 from plotter import Plot3D, Plot2D
 from functions import bird, rosenbrock, shubert
 from time_evolutionary import measure_time
@@ -7,8 +7,10 @@ from time_evolutionary import measure_time
 def split_coordinates(points):
     x_coords = [point[0] for point in points]
     y_coords = [point[1] for point in points]
-    z_coords = [point[2] for point in points]
-    return x_coords, y_coords, z_coords
+    if len(points[0]) == 3:
+        z_coords = [point[2] for point in points]
+        return x_coords, y_coords, z_coords
+    return x_coords, y_coords
 
 
 
@@ -38,34 +40,19 @@ def result_message(individual, fitness, color=None):
 
 def main():
 
-    fitness_function = bird
-    my_plot = Plot3D()
-    my_plot.create(fitness_function, 30)
+    fitness_function = shubert
 
-    population = generate_population(2, 10, 30)
-    points, best_individual, best_fitness= evolutionary_for_plots(fitness_function, population, 10, 0.3, 0.1, 100)
-    x_coords, y_coords, z_coords = split_coordinates(points)
-    color = 'red'
-    my_plot.add_points(x_coords, y_coords, z_coords, color, 3)
-    my_plot.add_text(result_message(best_individual, best_fitness, color))
-
-    population = generate_population(2, 10, 30)
-    points, best_individual, best_fitness= evolutionary_for_plots(fitness_function, population, 10, 0.3, 0.3, 100)
-    x_coords, y_coords, z_coords = split_coordinates(points)
-    color = 'black'
-    my_plot.add_points(x_coords, y_coords, z_coords, color, 3)
-    my_plot.add_text(result_message(best_individual, best_fitness, color))
-
-    population = generate_population(2, 10, 30)
-    points, best_individual, best_fitness= evolutionary_for_plots(fitness_function, population, 10, 0.3, 0.6, 100)
-    x_coords, y_coords, z_coords = split_coordinates(points)
-    color = 'green'
-    my_plot.add_points(x_coords, y_coords, z_coords, color, 3)
-    my_plot.add_text(result_message(best_individual, best_fitness, color))
-
+    population = generate_population(2, 20, 1000)
+    visited= evolutionary_plot_all(fitness_function, population, 20, 0.3, 0.1, 500)
+    x_coords, y_coords = split_coordinates(visited)
+    my_plot = Plot2D()
+    my_plot.plot_points(x_coords, y_coords, "red")
 
     my_plot.show()
 
+    # time = measure_time(2, 200, 'bird', 0.6, 0.2, 2000, 3)
+    # average_time = sum(time)/len(time)
+    # print(average_time)
 
 
 
