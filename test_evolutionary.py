@@ -1,6 +1,6 @@
-from numpy.core.numeric import cross
-from evolutionary import *
 import numpy as np
+from evolutionary import *
+from utils.utilities import generate_population
 
 
 def test_generate_population_one_dimention():

@@ -1,5 +1,6 @@
 import numpy as np
 from random import random
+from utils.utilities import flatten
 
 
 def reproduction(population, fitness, population_size, tournament_group_size):
@@ -62,8 +63,6 @@ def succession(population, fitness, offspring, offspring_fitness, elite_size):
     return successors, successors_fitness
 
 
-
-
 def evolutionary(q,
         population,
         population_size,
@@ -89,10 +88,6 @@ def evolutionary(q,
         population, fitness = succession(population, fitness, offspring, offspring_fitness, elite_size)
         t += 1
     return best_individual, best_fitness
-
-
-def flatten(list):
-    return [item for sublist in list for item in sublist]
 
 
 def evolutionary_for_plots(q,
@@ -130,15 +125,32 @@ def evolutionary_for_plots(q,
     return iteration_best, best_individual, best_fitness
 
 
-def generate_population(dimentions, population_size, domain=100, clone=False):
-    population = []
+def evolutionary_plot_all(q,
+        population,
+        population_size,
+        crossover_chance,
+        mutation_strength,
+        max_iter,
+        crossover_factor=0.1,
+        mutation_chance=1,
+        elite_size=1,
+        tournament_group_size=2):
+    visited = []
+    t = 0
+    fitness = evaluate_fitness(q, population)
+    best_individual, best_fitness = find_best(population, fitness)
+    visited = [[t, fitness] for fitness in fitness]
+    while t < max_iter:
+        offspring = reproduction(population, fitness, population_size, tournament_group_size)
+        offspring = crossover(population, crossover_chance, crossover_factor)
+        offspring = mutation(offspring, mutation_strength, mutation_chance)
+        offspring_fitness = evaluate_fitness(q, offspring)
+        t_best_individual, t_best_fitness = find_best(offspring, offspring_fitness)
+        visited.extend([[t, fitness] for fitness in offspring_fitness])
+        if t_best_fitness < best_fitness:
+            best_fitness = t_best_fitness
+            best_individual = t_best_individual
+        population, fitness = succession(population, fitness, offspring, offspring_fitness, elite_size)
+        t += 1
 
-    if clone:
-        individual = np.array([(random()-0.5)*2*domain for _ in range(dimentions)])
-        population = [individual for _ in range(population_size)]
-        return np.array(population)
-
-    for _ in range(population_size):
-        population.append(np.array([(random()-0.5)*2*domain for _ in range(dimentions)]))
-
-    return np.array(population)
+    return visited
