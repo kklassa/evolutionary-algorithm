@@ -1,6 +1,6 @@
 import numpy as np
 from random import random
-from utilities import flatten
+from utils.utilities import flatten
 
 
 def reproduction(population, fitness, population_size, tournament_group_size):

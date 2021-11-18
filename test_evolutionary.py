@@ -1,6 +1,6 @@
 import numpy as np
 from evolutionary import *
-from utilities import generate_population
+from utils.utilities import generate_population
 
 
 def test_generate_population_one_dimention():
