@@ -11,6 +11,6 @@
 
 ***test_evolutionary.py*** contains simple unit tests for the algorithm
 
-***time_evolutionary.py*** contains a functions which can be used to measure the egzecution time of the algorithm
+***time_evolutionary.py*** contains a functions which can be used to measure the execution time of the algorithm
 
 **utils** module contains filies with simple utility functions used throughout the project
