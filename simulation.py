@@ -7,16 +7,18 @@ from utils.plotter import Plot2D, Plot3D
 
 def main():
 
-    fitness_function = shubert
+    fitness_function = bird
 
-    plot = Plot3D()
-    plot.create(fitness_function, 4)
+    my_plot = Plot3D()
+    my_plot.create(fitness_function, 10)
 
-    population = generate_population(2, 30, 1000)
-    visited= evolutionary_plot_all(fitness_function, population, 30, 0.3, 0.25, 500)
-    x_coords, y_coords = split_coordinates(visited)
-    my_plot = Plot2D()
-    my_plot.plot_points(x_coords, y_coords, "red")
+    population = generate_population(2, 10, 10)
+    iteration_best, best_individual, best_fitness = evolutionary_for_plots(fitness_function, population, 10, 0.3, 0.25, 100)
+
+    print(f'Found best individual: {best_individual}\nwith fitness: {best_fitness}')
+
+    x_coords, y_coords, z_coords = split_coordinates(iteration_best)
+    my_plot.add_points(x_coords, y_coords, z_coords, 'red', 2)
 
     my_plot.show()
 
